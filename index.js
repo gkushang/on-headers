@@ -46,15 +46,13 @@ function createWriteHead(prevWriteHead, listener) {
       listener.call(this)
 
       if (this.statusCode < 100 || this.statusCode > 999) {
-        throw new Error('INCORRECT STATUS CODE: ' + this.statusCode);
+        throw new Error('INCORRECT STATUS CODE: ' + this.statusCode + '. Arguments is ', arguments);
       }
 
       // pass-along an updated status code
       if (typeof args[0] === 'number' && this.statusCode !== args[0]) {
         args[0] = this.statusCode
         args.length = 1
-      } else {
-        throw new Error('INCORRECT STATUS CODE. Arguments array is ', arguments);
       }
     }
 
