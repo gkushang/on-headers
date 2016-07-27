@@ -40,18 +40,19 @@ function createWriteHead(prevWriteHead, listener) {
     // set headers from arguments
     var args = setWriteHeadHeaders.apply(this, arguments);
 
+    if (!this.statusCode) {
+      throw new Error('UNDEFINED STATUS CODE: ' + this.statusCode + '. Arguments is ', arguments);
+    }
+
+
     if (this.statusCode < 100 || this.statusCode > 999) {
-      throw new Error('INCORRECT STATUS CODE BEFORE FIRE: ' + this.statusCode + '. Arguments is ', arguments);
+      throw new Error('INCORRECT STATUS CODE: ' + this.statusCode + '. Arguments is ', arguments);
     }
 
     // fire listener
     if (!fired) {
       fired = true
       listener.call(this)
-
-      if (this.statusCode < 100 || this.statusCode > 999) {
-        throw new Error('INCORRECT STATUS CODE: ' + this.statusCode + '. Arguments is ', arguments);
-      }
 
       // pass-along an updated status code
       if (typeof args[0] === 'number' && this.statusCode !== args[0]) {
