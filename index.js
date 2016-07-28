@@ -37,6 +37,12 @@ function createWriteHead(prevWriteHead, listener) {
 
   // return function with core name and argument list
   return function writeHead(statusCode) {
+    var argsToBePrinted;
+
+    if(arguments) {
+      argsToBePrinted = JSON.stringify(arguments);
+      console.log('===================++++++============ arguments: ', argsToBePrinted);
+    }
     // set headers from arguments
     var args = setWriteHeadHeaders.apply(this, arguments);
 
@@ -59,6 +65,13 @@ function createWriteHead(prevWriteHead, listener) {
         args[0] = this.statusCode
         args.length = 1
       }
+    }
+
+    if(args[0]) {
+
+      console.log('===============================++++++============== statuscode: ' + args + ' -- arguments: ',  argsToBePrinted);
+    } else {
+      console.log('===============================++++++=======NOT DEFINED :(((( ======= statuscode: ' + args + ' -- arguments: ',  argsToBePrinted);
     }
 
     prevWriteHead.apply(this, args);
